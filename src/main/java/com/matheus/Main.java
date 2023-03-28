@@ -3,7 +3,9 @@ package com.matheus;
 import com.matheus.aStar.cap.Capacitor;
 import com.matheus.controllers.def.ops.IController;
 import com.matheus.shared.Shared;
+import com.matheus.util.SaveOutput;
 
+import java.io.IOException;
 import java.lang.Math;
 
 public class Main {
@@ -21,6 +23,14 @@ public class Main {
             vnew = capacitor.getCapacitorVoltageLevel();
 
             double rnewController = controller.update(3.7, vnew);
+
+            // Save output to file
+            try {
+                SaveOutput.saveToFile("output.csv", String.format("%.2f;%d;\n", vnew, Math.round(rnewController)));
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
+            }
 
             System.out.printf("%.2f;%d;\n", vnew, Math.round(rnewController));
             //System.out.printf("%.2f;%d;%d\n", vnew, Math.round((double) rnewController));
