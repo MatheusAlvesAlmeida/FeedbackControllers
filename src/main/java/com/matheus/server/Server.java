@@ -1,4 +1,4 @@
-package com.matheus.apps.rabbitmq.server;
+package com.matheus.server;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
@@ -14,15 +14,14 @@ public class Server {
         factory.setHost("localhost");
         try (Connection connection = factory.newConnection(); Channel channel = connection.createChannel()) {
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-            String message = "";
-            for (int i = 0; i < 100; i++) {
-                message = "Hello World! " + i;
+            int x = 0;
+            while (true) {
+                String message = "Hello World! " + x;
                 channel.basicPublish("", QUEUE_NAME, null, message.getBytes(StandardCharsets.UTF_8));
                 System.out.println(" [x] Sent '" + message + "'");
-                Thread.sleep(1000);
+                x++;
+                Thread.sleep(100);
             }
-            
-            
         }
     }
 }
