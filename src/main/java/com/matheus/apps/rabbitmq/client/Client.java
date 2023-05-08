@@ -10,9 +10,11 @@ import java.util.concurrent.TimeoutException;
 public class Client {
 
     private static final String QUEUE_NAME = "TEST_QUEUE";
+    private static final int QUEUE_SLEEP_TIME = 2 * 60 * 1000;
+    private static final int QUEUE_WAIT_TIME = 1000;
 
     public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
-        IController controller = IController.createController(Shared.BASIC_ONOFF, 0.0, 1000.0);
+        IController controller = IController.createController(Shared.BASIC_ONOFF, 0.0, 10.0);
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
@@ -57,7 +59,7 @@ public class Client {
 
                 if (queueSize < arrivalRate) {
                     System.out.println("Queue size is less than arrival rate, sleeping for 2 minutes...");
-                    Thread.sleep(2 * 60 * 1000);
+                    Thread.sleep(QUEUE_SLEEP_TIME);
                 }
 
                 // Compute new value for prefetch count using controller
@@ -69,7 +71,7 @@ public class Client {
             }
 
             // Wait for a bit before checking again
-            Thread.sleep(1000);
+            Thread.sleep(QUEUE_WAIT_TIME);
         }
     }
 }
