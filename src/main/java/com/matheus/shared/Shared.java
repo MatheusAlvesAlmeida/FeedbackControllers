@@ -15,6 +15,9 @@ public class Shared {
 
     public static final String GAIN_SCHEDULING = "GainScheduling";
 
+    // Prefetch count variables
+    public static final double TARGET_PREFETCH_COUNT = 1;
+
     // Capacitor behaviour patterns/AsTAR
     public static final int IncreasingHarvesting = 0;
     public static final int HalfIncreasingHarvesting = 1;
