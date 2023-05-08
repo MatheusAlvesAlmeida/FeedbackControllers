@@ -1,5 +1,7 @@
-# Feedback Controllers Implementation in Java
-This project contains various implementations of feedback controllers in Java. The project was originally created by Professor Nelson Souto of Cin - UFPE in Go, and has been ported to Java for use in a Java environment.
+# RabbitMQ Client with Feedback Controllers
+This is a project that implements a RabbitMQ client with feedback controllers. The goal of this project is to control the prefetch count variable in RabbitMQ using different feedback controllers.
+
+The project was designed by the professor Nelson Souto, from CIN - UFPE. 
 
 # Overview
 
@@ -16,4 +18,4 @@ The project includes the following feedback controllers:
 - On-Off Controller with Hysteresis
 - Gain Scheduling Controller
 
-You can learn more about in this book by Philipp K Janert: [Feedback Control for Computer Systems: Introducing Control Theory to Enterprise Programmers](amazon.com.br/Feedback-Control-Computer-Systems-Phillipp/dp/1449361692). 
+You can learn more about in this book by Philipp K Janert: [Feedback Control for Computer Systems: Introducing Control Theory to Enterprise Programmers](amazon.com.br/Feedback-Control-Computer-Systems-Phillipp/dp/1449361692).
