@@ -1,4 +1,4 @@
-package com.matheus.apps.rabbitmq.server;
+package com.matheus.server;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;

@@ -1,4 +1,4 @@
-package com.matheus.apps.rabbitmq.client;
+package com.matheus.client;
 
 import com.matheus.controllers.def.ops.IController;
 import com.matheus.shared.Shared;
