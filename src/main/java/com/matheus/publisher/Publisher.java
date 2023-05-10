@@ -1,4 +1,4 @@
-package com.matheus.server;
+package com.matheus.publisher;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
@@ -7,7 +7,7 @@ import com.rabbitmq.client.Channel;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
-public class Server {
+public class Publisher {
     private final static String QUEUE_NAME = "NUMBERS_STREAM";
 
     public static void main(String[] argv) throws Exception {
