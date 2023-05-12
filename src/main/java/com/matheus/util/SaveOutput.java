@@ -15,11 +15,20 @@ public class SaveOutput {
 
         FileWriter writer = new FileWriter(file, true);
         if (!fileExists) {
-            writer.write("VNEW,CONTROLLER_RESULT\n");
+            writer.write("QUEUE_SIZE,ARRIVAL_RATE,PC_COMPUTED\n");
         }
 
         writer.write(string);
 
         writer.close();
+    }
+
+    public static void saveBasicOnOffResult(double queueSize, double arrivalRate, int newPC) {
+        try {
+            String content = String.format("%.2f,%.2f,%d\n", queueSize, arrivalRate, newPC);
+            saveToFile("basic_onoff.csv", content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

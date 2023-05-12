@@ -2,6 +2,7 @@ package com.matheus.subscriber;
 
 import com.matheus.controllers.def.ops.IController;
 import com.matheus.shared.Shared;
+import com.matheus.util.SaveOutput;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -39,6 +40,9 @@ public class Subscriber {
                     String message = new String(response.getBody(), "UTF-8");
                     System.out.println("Received message: " + message);
                 }
+            } else {
+                System.out.println("Queue is empty, stopping subscriber...");
+                break;
             }
 
             long t2 = System.currentTimeMillis();
@@ -52,6 +56,8 @@ public class Subscriber {
                 int newPC = (int) controller.update(queueSize, arrivalRate);
                 System.out.printf("Updated prefetch count: %d\n\n", newPC);
                 channel.basicQos(newPC);
+                // Save queue size, arrival rate and prefetch count to CSV file
+                SaveOutput.saveToFile("basic_onoff.csv", String.format("%d,%.2f,%d\n", queueSize, arrivalRate, newPC));
             }
         }
     }
