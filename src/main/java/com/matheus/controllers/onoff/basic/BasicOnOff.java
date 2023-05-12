@@ -37,7 +37,7 @@ public class BasicOnOff implements IController{
             throw new IllegalArgumentException("Input array should contain at least two values");
         }
         
-        double direction = -1.0;
+        double direction = 1.0;
         double u = 0.0;
 
         // Calculate error
