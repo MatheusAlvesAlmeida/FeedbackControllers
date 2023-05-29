@@ -10,10 +10,10 @@ import java.util.concurrent.TimeoutException;
 
 public class Subscriber {
 
-    private static final String QUEUE_NAME = "NUMBERS_STREAM";
+    private static final String QUEUE_NAME = "NUMBERS";
 
     public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
-        IController controller = IController.createController(Shared.BASIC_ONOFF, 1.0, 100.0);
+        //IController controller = IController.createController(Shared.BASIC_ONOFF, 1.0, 100.0);
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
@@ -21,7 +21,8 @@ public class Subscriber {
         
         Channel channel = connection.createChannel();
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        
+        channel.basicQos(1000);
+
         int count = 0;
         double arrivalRate = 0;
         long t1 = 0;
@@ -35,7 +36,7 @@ public class Subscriber {
             if (queueSize > 0) {
                 GetResponse response = channel.basicGet(QUEUE_NAME, false);
                 if (response != null) {
-                    channel.basicAck(response.getEnvelope().getDeliveryTag(), false);
+                    channel.basicAck(response.getEnvelope().getDeliveryTag(), false); 
                     count++;
                     String message = new String(response.getBody(), "UTF-8");
                     System.out.println("Received message: " + message);
@@ -53,11 +54,11 @@ public class Subscriber {
                 count = 0;
                 System.out.printf("Queue size: %d, Arrival rate: %.2f\n", queueSize, arrivalRate);
                 // Compute new value for prefetch count using controller
-                int newPC = (int) controller.update(queueSize, arrivalRate);
-                System.out.printf("Updated prefetch count: %d\n\n", newPC);
-                channel.basicQos(newPC);
+                //int newPC = (int) controller.update(queueSize, arrivalRate);
+                //System.out.printf("Updated prefetch count: %d\n\n", newPC);
+                //channel.basicQos(newPC);
                 // Save queue size, arrival rate and prefetch count to CSV file
-                SaveOutput.saveToFile("basic_onoff.csv", String.format("%d,%.2f,%d\n", queueSize, arrivalRate, newPC));
+                SaveOutput.saveToFile("prefetchcount_1000.csv", String.format("%d,%.2f\n", queueSize, arrivalRate));
             }
         }
     }
