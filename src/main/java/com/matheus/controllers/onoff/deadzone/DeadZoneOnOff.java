@@ -2,7 +2,6 @@ package com.matheus.controllers.onoff.deadzone;
 
 import com.matheus.controllers.def.info.Info;
 import com.matheus.controllers.def.ops.IController;
-import com.matheus.shared.Shared;
 
 public class DeadZoneOnOff implements IController{
     private Info info;
@@ -13,43 +12,40 @@ public class DeadZoneOnOff implements IController{
 
     @Override
     public void initialize(double... params) {
-        if (params.length < 3) {
-            System.out.printf("Error: '%s' controller requires 3 info (min, max, dead zone band) %n", Shared.DEADZONE_ONOFF);
-            System.exit(0);
+        if (params.length < 4) {
+            throw new IllegalArgumentException("Error: 'DeadZoneOnOff' controller requires 4 parameters: setpoint, min, max and deadzone");
         }
-        this.info.Min = params[0];
-        this.info.Max = params[1];
-        this.info.DeadZone = params[2];
+        this.info.SetPoint = params[0];
+        this.info.Min = params[1];
+        this.info.Max = params[2];
+        this.info.DeadZone = params[3];
     }
 
     @Override
     public double update(double... input) {
-        double direction = -1.0;
-        double u = 0.0;
+        double direction = 1.0;
+        double updatedValue = 0.0;
 
-        double s = input[0];
-        double y = input[1];
+        double setPoint = this.info.SetPoint;
+        double currentValue = input[0];
 
-        double err = direction * (s - y);
+        double err = direction * (setPoint - currentValue);
 
         if (err > -info.DeadZone/2.0 && err < info.DeadZone/2.0) {
-            u = 0.0; // no action
-        }
-        if (err >= info.DeadZone/2.0) {
-            u = info.Max;
-        }
-        if (err <= -info.DeadZone/2) {
-            u = info.Min;
+            updatedValue = 0.0; // no action
+        }else if (err >= info.DeadZone/2.0) {
+            updatedValue = info.Max;
+        }else if (err <= -info.DeadZone/2) {
+            updatedValue = info.Min;
         }
     
-        if (u < info.Min) {
-            u = info.Min;
-        }
-        if (u > info.Max) {
-            u = info.Max;
+        if (updatedValue < info.Min) {
+            updatedValue = info.Min;
+        }else if (updatedValue > info.Max) {
+            updatedValue = info.Max;
         }
 
-        return u;
+        return updatedValue;
     }
     
 }
