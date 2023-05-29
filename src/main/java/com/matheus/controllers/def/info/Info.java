@@ -3,6 +3,7 @@ package com.matheus.controllers.def.info;
 public class Info {
 
     public String TypeName; // Controller type name
+    public double SetPoint; // Set point
     public double Kp; // kp constant used by PID controllers
     public double Ki; // ki constant used by PID controllers
     public double Kd; // kd constant used by PID controllers
@@ -38,5 +39,13 @@ public class Info {
 
     public double getMin() {
         return this.Min;
+    }
+
+    public void setSetPoint(double setpoint) {
+        this.SetPoint = setpoint;
+    }
+
+    public double getSetPoint() {
+        return this.SetPoint;
     }
 }
