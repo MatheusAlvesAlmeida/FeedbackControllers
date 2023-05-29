@@ -13,19 +13,20 @@ public class BasicOnOff implements IController{
 
     @Override
     public void initialize(double... params) {
-        if (params.length < 2) {
-            System.out.println("Error: 'OnOffBasic' controller requires two parameters: min and max");
-            System.exit(0);
+        if (params.length < 3) {
+            throw new IllegalArgumentException("Error: 'OnOffBasic' controller requires 3 parameters: setpoint, min and max");
         }
         
-        double min = params[0];
-        double max = params[1];
+        double setpoint = params[0];
+        double min = params[1];
+        double max = params[2];
         
         if(min > max) {
             throw new IllegalArgumentException("Error: 'OnOffBasic' controller requires min < max");
         }
         
         this.info.setType(Shared.BASIC_ONOFF);
+        this.info.setSetPoint(setpoint);
         this.info.setMin(min);
         this.info.setMax(max);
     }
@@ -38,22 +39,22 @@ public class BasicOnOff implements IController{
         }
         
         double direction = 1.0;
-        double u = 0.0;
+        double updatedValue = 0.0;
 
         // Calculate error
-        double s = input[0];
-        double y = input[1];
+        double setPoint = this.info.getSetPoint();
+        double currentValue = input[0];
         
         // error
-        double err = direction * (s - y);
+        double err = direction * (setPoint - currentValue);
         
         // control law
         if(err >= 0) {
-            u = this.info.getMax();
+            updatedValue = this.info.getMax();
         } else {
-            u = this.info.getMin();
+            updatedValue = this.info.getMin();
         }
         
-        return u;
+        return updatedValue;
     }
 }
