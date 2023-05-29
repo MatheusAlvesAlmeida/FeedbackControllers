@@ -48,4 +48,8 @@ public class Info {
     public double getSetPoint() {
         return this.SetPoint;
     }
+
+    public void setPreviousOut(double previousOut) {
+        this.PreviousOut = previousOut;
+    }
 }
