@@ -15,10 +15,10 @@ public class DeadZoneOnOff implements IController{
         if (params.length < 4) {
             throw new IllegalArgumentException("Error: 'DeadZoneOnOff' controller requires 4 parameters: setpoint, min, max and deadzone");
         }
-        this.info.SetPoint = params[0];
-        this.info.Min = params[1];
-        this.info.Max = params[2];
-        this.info.DeadZone = params[3];
+        this.info.setPoint = params[0];
+        this.info.min = params[1];
+        this.info.max = params[2];
+        this.info.deadZone = params[3];
     }
 
     @Override
@@ -26,23 +26,23 @@ public class DeadZoneOnOff implements IController{
         double direction = 1.0;
         double updatedValue = 0.0;
 
-        double setPoint = this.info.SetPoint;
+        double setPoint = this.info.setPoint;
         double currentValue = input[0];
 
         double err = direction * (setPoint - currentValue);
 
-        if (err > -info.DeadZone/2.0 && err < info.DeadZone/2.0) {
+        if (err > -info.deadZone/2.0 && err < info.deadZone/2.0) {
             updatedValue = 0.0; // no action
-        }else if (err >= info.DeadZone/2.0) {
-            updatedValue = info.Max;
-        }else if (err <= -info.DeadZone/2) {
-            updatedValue = info.Min;
+        }else if (err >= info.deadZone/2.0) {
+            updatedValue = info.max;
+        }else if (err <= -info.deadZone/2) {
+            updatedValue = info.min;
         }
     
-        if (updatedValue < info.Min) {
-            updatedValue = info.Min;
-        }else if (updatedValue > info.Max) {
-            updatedValue = info.Max;
+        if (updatedValue < info.min) {
+            updatedValue = info.min;
+        }else if (updatedValue > info.max) {
+            updatedValue = info.max;
         }
 
         return updatedValue;

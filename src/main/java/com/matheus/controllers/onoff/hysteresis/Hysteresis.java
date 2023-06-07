@@ -13,13 +13,13 @@ public class Hysteresis implements IController{
     @Override
     public void initialize(double... params) {
         if (params.length < 4) {
-            throw new IllegalArgumentException("Error: 'HysteresisOnOff' controller requires 4 parameters: setpoint, min, max and hysteresis band");
+            throw new IllegalArgumentException("Error: 'HysteresisOnOff' controller requires 4 parameters: setPoint, min, max and hysteresis band");
         }
-        this.info.SetPoint = params[0];
-        this.info.Min = params[1];
-        this.info.Max = params[2];
-        this.info.HysteresisBand = params[3];
-        this.info.PreviousOut = 0.0;
+        this.info.setPoint = params[0];
+        this.info.min = params[1];
+        this.info.max = params[2];
+        this.info.hysteresisBand = params[3];
+        this.info.previousOut = 0.0;
     }
 
     @Override
@@ -27,23 +27,23 @@ public class Hysteresis implements IController{
         double direction = 1.0;
         double u = 0.0;
 
-        double s = this.info.SetPoint;
+        double s = this.info.setPoint;
         double y = input[0];
 
         double err = direction * (s - y);
 
-        if (err > -info.HysteresisBand/2.0 && err < info.HysteresisBand/2.0) {
-            u = info.PreviousOut; // no action
-        }else if (err >= info.HysteresisBand/2.0) {
-            u = info.Max;
-        }else if (err <= -info.HysteresisBand/2) {
-            u = info.Min;
+        if (err > -info.hysteresisBand/2.0 && err < info.hysteresisBand/2.0) {
+            u = info.previousOut; // no action
+        }else if (err >= info.hysteresisBand/2.0) {
+            u = info.max;
+        }else if (err <= -info.hysteresisBand/2) {
+            u = info.min;
         }
     
-        if (u < info.Min) {
-            u = info.Min;
-        }else if (u > info.Max) {
-            u = info.Max;
+        if (u < info.min) {
+            u = info.min;
+        }else if (u > info.max) {
+            u = info.max;
         }
 
         this.info.setPreviousOut(u);
