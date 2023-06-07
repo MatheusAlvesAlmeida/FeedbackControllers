@@ -33,28 +33,24 @@ public class BasicOnOff implements IController{
 
     @Override
     public double update(double... input) {
-        // Validate input
-        if (input == null || input.length < 2) {
-            throw new IllegalArgumentException("Input array should contain at least two values");
+        if (input == null || input.length < 1) {
+            throw new IllegalArgumentException("Input array should contain the current arrival rate");
         }
         
         double direction = 1.0;
-        double updatedValue = 0.0;
+        double newPrefetchCount = 0.0;
 
-        // Calculate error
         double setPoint = this.info.getSetPoint();
         double currentValue = input[0];
         
-        // error
         double err = direction * (setPoint - currentValue);
         
-        // control law
         if(err >= 0) {
-            updatedValue = this.info.getMax();
+            newPrefetchCount = this.info.getMax();
         } else {
-            updatedValue = this.info.getMin();
+            newPrefetchCount = this.info.getMin();
         }
         
-        return updatedValue;
+        return newPrefetchCount;
     }
 }

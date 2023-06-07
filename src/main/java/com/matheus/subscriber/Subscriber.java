@@ -1,5 +1,7 @@
 package com.matheus.subscriber;
 
+import com.matheus.controllers.def.ops.IController;
+import com.matheus.shared.Shared;
 import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -41,6 +43,9 @@ public class Subscriber {
         double arrivalRate = 0;
         long startTime = 0;
 
+        IController controller = IController.createController(Shared.BASIC_ONOFF, 10000, 1, 5);
+        System.out.println("Test for " + Shared.BASIC_ONOFF + " controller");
+
         try {
             Connection connection = createConnectionFactory().newConnection();
             try {
@@ -61,10 +66,10 @@ public class Subscriber {
                             channel.basicCancel(consumerTag);
                             double interval = (currentTime - startTime) / 1000.0;
                             arrivalRate = messageCount.get() / interval;
-                            System.out.printf("%d, %.2f\n", prefetchCount, arrivalRate);
+                            System.out.printf("%d, %.2f, 10000\n", prefetchCount, arrivalRate);
                             startTime = 0;
                             messageCount.set(0);
-                            prefetchCount += 10;
+                            prefetchCount = (int) controller.update(arrivalRate);
                             channel.basicQos(prefetchCount, true);
                             consumerTag = channel.basicConsume(QUEUE_NAME, false, consumer);
                         }

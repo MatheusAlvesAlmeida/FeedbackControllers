@@ -20,8 +20,8 @@ public class Info {
     public double hysteresisBand; // Hysteresis band used by some controllers
     public double out; // Controller output
 
-    public void setType(String basicOnoff) {
-        this.typeName = basicOnoff;
+    public void setType(String type) {
+        this.typeName = type;
     }
 
     public void setMin(double min2) {
