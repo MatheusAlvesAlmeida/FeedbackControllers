@@ -6,6 +6,7 @@ import com.matheus.shared.Shared;
 public interface IController {
     void initialize(double... params);
     double update(double... input);
+    void updateSetPoint(double setPoint);
 
     static IController createController(String typeName, double... params) {
         switch (typeName) {

@@ -3,7 +3,7 @@ package com.matheus.controllers.onoff.deadzone;
 import com.matheus.controllers.def.info.Info;
 import com.matheus.controllers.def.ops.IController;
 
-public class DeadZoneOnOff implements IController{
+public class DeadZoneOnOff implements IController {
     private Info info;
 
     public DeadZoneOnOff() {
@@ -13,7 +13,8 @@ public class DeadZoneOnOff implements IController{
     @Override
     public void initialize(double... params) {
         if (params.length < 4) {
-            throw new IllegalArgumentException("Error: 'DeadZoneOnOff' controller requires 4 parameters: setpoint, min, max and deadzone");
+            throw new IllegalArgumentException(
+                    "Error: 'DeadZoneOnOff' controller requires 4 parameters: setpoint, min, max and deadzone");
         }
         this.info.setPoint = params[0];
         this.info.min = params[1];
@@ -31,21 +32,25 @@ public class DeadZoneOnOff implements IController{
 
         double err = direction * (setPoint - currentValue);
 
-        if (err > -info.deadZone/2.0 && err < info.deadZone/2.0) {
+        if (err > -info.deadZone / 2.0 && err < info.deadZone / 2.0) {
             updatedValue = 0.0; // no action
-        }else if (err >= info.deadZone/2.0) {
+        } else if (err >= info.deadZone / 2.0) {
             updatedValue = info.max;
-        }else if (err <= -info.deadZone/2) {
+        } else if (err <= -info.deadZone / 2) {
             updatedValue = info.min;
         }
-    
+
         if (updatedValue < info.min) {
             updatedValue = info.min;
-        }else if (updatedValue > info.max) {
+        } else if (updatedValue > info.max) {
             updatedValue = info.max;
         }
 
         return updatedValue;
     }
-    
+
+    @Override
+    public void updateSetPoint(double setPoint) {
+        this.info.setSetPoint(setPoint);
+    }
 }

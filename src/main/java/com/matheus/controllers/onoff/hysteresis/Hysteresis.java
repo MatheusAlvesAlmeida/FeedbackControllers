@@ -3,7 +3,7 @@ package com.matheus.controllers.onoff.hysteresis;
 import com.matheus.controllers.def.info.Info;
 import com.matheus.controllers.def.ops.IController;
 
-public class Hysteresis implements IController{
+public class Hysteresis implements IController {
     private Info info;
 
     public Hysteresis() {
@@ -13,7 +13,8 @@ public class Hysteresis implements IController{
     @Override
     public void initialize(double... params) {
         if (params.length < 4) {
-            throw new IllegalArgumentException("Error: 'HysteresisOnOff' controller requires 4 parameters: setPoint, min, max and hysteresis band");
+            throw new IllegalArgumentException(
+                    "Error: 'HysteresisOnOff' controller requires 4 parameters: setPoint, min, max and hysteresis band");
         }
         this.info.setPoint = params[0];
         this.info.min = params[1];
@@ -32,17 +33,17 @@ public class Hysteresis implements IController{
 
         double err = direction * (s - y);
 
-        if (err > -info.hysteresisBand/2.0 && err < info.hysteresisBand/2.0) {
+        if (err > -info.hysteresisBand / 2.0 && err < info.hysteresisBand / 2.0) {
             u = info.previousOut; // no action
-        }else if (err >= info.hysteresisBand/2.0) {
+        } else if (err >= info.hysteresisBand / 2.0) {
             u = info.max;
-        }else if (err <= -info.hysteresisBand/2) {
+        } else if (err <= -info.hysteresisBand / 2) {
             u = info.min;
         }
-    
+
         if (u < info.min) {
             u = info.min;
-        }else if (u > info.max) {
+        } else if (u > info.max) {
             u = info.max;
         }
 
@@ -50,5 +51,9 @@ public class Hysteresis implements IController{
 
         return u;
     }
-    
+
+    @Override
+    public void updateSetPoint(double setPoint) {
+        this.info.setSetPoint(setPoint);
+    }
 }

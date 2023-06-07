@@ -53,4 +53,9 @@ public class BasicOnOff implements IController{
         
         return newPrefetchCount;
     }
+
+    @Override
+    public void updateSetPoint(double setPoint) {
+        this.info.setSetPoint(setPoint);
+    }
 }
