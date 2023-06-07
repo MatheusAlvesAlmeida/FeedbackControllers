@@ -52,4 +52,12 @@ public class Info {
         this.previousOut = previousOut;
     }
 
+    public void setDeadZone(double d) {
+        this.deadZone = d;
+    }
+
+    public double getDeadZone() {
+        return this.deadZone;
+    }
+
 }

@@ -16,37 +16,38 @@ public class DeadZoneOnOff implements IController {
             throw new IllegalArgumentException(
                     "Error: 'DeadZoneOnOff' controller requires 4 parameters: setpoint, min, max and deadzone");
         }
-        this.info.setPoint = params[0];
-        this.info.min = params[1];
-        this.info.max = params[2];
-        this.info.deadZone = params[3];
+        this.info.setType("DeadZoneOnOff");
+        this.info.setSetPoint(params[0]);
+        this.info.setMin(params[1]);
+        this.info.setMax(params[2]);
+        this.info.setDeadZone(params[3]);
     }
 
     @Override
     public double update(double... input) {
         double direction = 1.0;
-        double updatedValue = 0.0;
+        double newPrefetchCount = 0.0;
 
-        double setPoint = this.info.setPoint;
+        double setPoint = this.info.getSetPoint();
         double currentValue = input[0];
 
         double err = direction * (setPoint - currentValue);
 
-        if (err > -info.deadZone / 2.0 && err < info.deadZone / 2.0) {
-            updatedValue = 0.0; // no action
-        } else if (err >= info.deadZone / 2.0) {
-            updatedValue = info.max;
-        } else if (err <= -info.deadZone / 2) {
-            updatedValue = info.min;
+        if (err > -this.info.getDeadZone() / 2.0 && err < this.info.getDeadZone() / 2.0) {
+            newPrefetchCount = 0.0; // no action
+        } else if (err >= this.info.getDeadZone() / 2.0) {
+            newPrefetchCount = this.info.getMax();
+        } else if (err <= -this.info.getDeadZone() / 2) {
+            newPrefetchCount = this.info.getMin();
         }
 
-        if (updatedValue < info.min) {
-            updatedValue = info.min;
-        } else if (updatedValue > info.max) {
-            updatedValue = info.max;
+        if (newPrefetchCount < this.info.getMin()) {
+            newPrefetchCount = this.info.getMin();
+        } else if (newPrefetchCount > this.info.getMax()) {
+            newPrefetchCount = this.info.getMax();
         }
 
-        return updatedValue;
+        return newPrefetchCount;
     }
 
     @Override
