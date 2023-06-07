@@ -38,7 +38,7 @@ public class Subscriber {
     }
 
     public static void main(String[] args) {
-        int prefetchCount = 0;
+        int prefetchCount = 1;
         AtomicInteger messageCount = new AtomicInteger(0);
         double arrivalRate = 0;
         long startTime = 0;
