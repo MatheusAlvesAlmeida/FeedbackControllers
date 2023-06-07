@@ -13,6 +13,8 @@ public class Shared {
     public static final String ERROR_SQUARE_PID = "ErrorSquarePID";
     public static final String DEADZONE_PID = "DeadZonePID";
 
+    public static final String ASTAR = "AStar";
+
     public static final String GAIN_SCHEDULING = "GainScheduling";
 
     // Prefetch count variables

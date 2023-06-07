@@ -45,7 +45,8 @@ public class Subscriber {
 
         IController controller = IController.createController(Shared.BASIC_ONOFF, 10000, 1, 5);
         IController controller2 = IController.createController(Shared.DEADZONE_ONOFF, 10000, 1, 5, 0.5);
-        System.out.println("Test for " + Shared.DEADZONE_ONOFF + " controller");
+        IController controller3 = IController.createController(Shared.ASTAR, 20000, 1.0, 5.0, 0.5);
+        System.out.println("Test for " + Shared.ASTAR + " controller");
 
         try {
             Connection connection = createConnectionFactory().newConnection();
@@ -67,10 +68,10 @@ public class Subscriber {
                             channel.basicCancel(consumerTag);
                             double interval = (currentTime - startTime) / 1000.0;
                             arrivalRate = messageCount.get() / interval;
-                            System.out.printf("%d, %.2f, 10000\n", prefetchCount, arrivalRate);
+                            System.out.printf("%d, %.2f, 20000\n", prefetchCount, arrivalRate);
                             startTime = 0;
                             messageCount.set(0);
-                            prefetchCount = (int) controller2.update(arrivalRate);
+                            prefetchCount = (int) controller3.update(arrivalRate);
                             channel.basicQos(prefetchCount, true);
                             consumerTag = channel.basicConsume(QUEUE_NAME, false, consumer);
                         }
