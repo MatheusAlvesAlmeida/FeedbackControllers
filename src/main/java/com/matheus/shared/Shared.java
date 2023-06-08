@@ -15,6 +15,8 @@ public class Shared {
 
     public static final String ASTAR = "AStar";
 
+    public static final String HPA = "HPA";
+
     public static final String GAIN_SCHEDULING = "GainScheduling";
 
     // Prefetch count variables

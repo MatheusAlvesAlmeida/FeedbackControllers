@@ -6,8 +6,8 @@ import com.matheus.controllers.def.ops.IController;
 public class HPA implements IController{
     private Info info;
 
-    public HPA(Info info) {
-        this.info = info;
+    public HPA() {
+        this.info = new Info();
     }
 
     @Override

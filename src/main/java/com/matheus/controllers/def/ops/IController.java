@@ -1,6 +1,7 @@
 package com.matheus.controllers.def.ops;
 
 import com.matheus.controllers.aStar.aStar;
+import com.matheus.controllers.hpa.HPA;
 import com.matheus.controllers.onoff.basic.BasicOnOff;
 import com.matheus.controllers.onoff.deadzone.DeadZoneOnOff;
 import com.matheus.shared.Shared;
@@ -27,6 +28,11 @@ public interface IController {
                 aStar.initialize(params);
                 return aStar;
                 
+            case Shared.HPA:
+                HPA hpa = new HPA();
+                hpa.initialize(params);
+                return hpa;
+
             default:
                 System.out.println("Error: Controller type ´" + typeName + "´ is unknown!");
                 System.exit(0);
