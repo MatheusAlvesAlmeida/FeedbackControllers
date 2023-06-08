@@ -21,6 +21,25 @@ public class Info {
     public double out; // Controller output
     public double previousRate; // Previous arrival rate -- used by some controllers
 
+    public double direction; // Direction of the controller
+    public double PC; // Proportional constant used by HPA controllers
+
+    public void setPC(double PC) {
+        this.PC = PC;
+    }
+
+    public double getPC() {
+        return this.PC;
+    }
+
+    public void setDirection(double direction) {
+        this.direction = direction;
+    }
+
+    public double getDirection() {
+        return this.direction;
+    }
+
     public void setPreviousRate(double previousRate) {
         this.previousRate = previousRate;
     }
