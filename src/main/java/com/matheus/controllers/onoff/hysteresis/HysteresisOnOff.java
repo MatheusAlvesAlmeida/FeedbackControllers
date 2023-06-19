@@ -3,10 +3,10 @@ package com.matheus.controllers.onoff.hysteresis;
 import com.matheus.controllers.def.info.Info;
 import com.matheus.controllers.def.ops.IController;
 
-public class Hysteresis implements IController {
+public class HysteresisOnOff implements IController {
     private Info info;
 
-    public Hysteresis() {
+    public HysteresisOnOff() {
         this.info = new Info();
     }
 
