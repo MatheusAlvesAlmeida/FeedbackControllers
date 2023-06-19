@@ -16,6 +16,7 @@ The project includes the following feedback controllers:
 - On-Off Controller
 - On-Off Controller with Deadzone
 - On-Off Controller with Hysteresis
-- Gain Scheduling Controller
+- aStar Controller
+- HPA Controller
 
 You can learn more about in this book by Philipp K Janert: [Feedback Control for Computer Systems: Introducing Control Theory to Enterprise Programmers](amazon.com.br/Feedback-Control-Computer-Systems-Phillipp/dp/1449361692).
