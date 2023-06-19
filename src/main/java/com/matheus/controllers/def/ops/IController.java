@@ -4,6 +4,7 @@ import com.matheus.controllers.aStar.aStar;
 import com.matheus.controllers.hpa.HPA;
 import com.matheus.controllers.onoff.basic.BasicOnOff;
 import com.matheus.controllers.onoff.deadzone.DeadZoneOnOff;
+import com.matheus.controllers.onoff.hysteresis.HysteresisOnOff;
 import com.matheus.shared.Shared;
 
 public interface IController {
@@ -22,6 +23,11 @@ public interface IController {
                 DeadZoneOnOff onoffDeadZone = new DeadZoneOnOff();
                 onoffDeadZone.initialize(params);
                 return onoffDeadZone;
+
+            case Shared.HYSTERESIS_ONOFF:
+                HysteresisOnOff onoffHysteresis = new HysteresisOnOff();
+                onoffHysteresis.initialize(params);
+                return onoffHysteresis;
 
             case Shared.ASTAR:
                 aStar aStar = new aStar();
