@@ -31,22 +31,23 @@ public class Subscriber {
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
                     byte[] body) throws IOException {
                 channel.basicAck(envelope.getDeliveryTag(), false);
-                // System.out.println(" [x] Received '" + new String(body, "UTF-8") + "'");
                 count.incrementAndGet();
             }
         };
     }
 
     public static void main(String[] args) {
-        int prefetchCount = 1;
+        int prefetchCount = 1, setPointIndex = 0;
+        int[] desiredArrivalRate = {20000, 10000, 8000, 15000, 5000};
         AtomicInteger messageCount = new AtomicInteger(0);
         double arrivalRate = 0;
         long startTime = 0;
 
-        IController controller = IController.createController(Shared.BASIC_ONOFF, 10000, 1, 5);
-        IController controller2 = IController.createController(Shared.DEADZONE_ONOFF, 10000, 1, 5, 0.5);
-        IController controller3 = IController.createController(Shared.ASTAR, 20000, 1.0, 5.0, 0.5);
-        System.out.println("Test for " + Shared.ASTAR + " controller");
+        IController basicOnOff = IController.createController(Shared.BASIC_ONOFF, desiredArrivalRate[0], 1, 10);
+        //IController deadzoneOnOff = IController.createController(Shared.DEADZONE_ONOFF, desiredArrivalRate[0], 1, 10, 0.5);
+        //IController hysteresisOnOff = IController.createController(Shared.HYSTERESIS_ONOFF, desiredArrivalRate[0], 1, 10, 0.5);
+        //IController aStar = IController.createController(Shared.ASTAR, desiredArrivalRate[0], 1.0, 5.0, 0.5);
+        //IController hpa = IController.createController(Shared.HPA, desiredArrivalRate[0], 1.0, 1, 10, prefetchCount);
 
         try {
             Connection connection = createConnectionFactory().newConnection();
@@ -56,7 +57,7 @@ public class Subscriber {
                     channel.basicQos(0, prefetchCount, true);
                     DefaultConsumer consumer = createConsumer(channel, messageCount);
                     String consumerTag = channel.basicConsume(QUEUE_NAME, false, consumer);
-
+                    long time = System.currentTimeMillis();
                     while (true) {
                         if (startTime == 0) {
                             startTime = System.currentTimeMillis();
@@ -68,12 +69,20 @@ public class Subscriber {
                             channel.basicCancel(consumerTag);
                             double interval = (currentTime - startTime) / 1000.0;
                             arrivalRate = messageCount.get() / interval;
-                            System.out.printf("%d, %.2f, 20000\n", prefetchCount, arrivalRate);
+                            System.out.printf("%d, %.2f, %d\n", prefetchCount, arrivalRate, desiredArrivalRate);
                             startTime = 0;
                             messageCount.set(0);
-                            prefetchCount = (int) controller3.update(arrivalRate);
+                            prefetchCount = (int) basicOnOff.update(arrivalRate);
                             channel.basicQos(prefetchCount, true);
                             consumerTag = channel.basicConsume(QUEUE_NAME, false, consumer);
+                            // Change the set point every 5 minutes (300000 ms)
+                            if (System.currentTimeMillis() - time >= 300000) {
+                                if (setPointIndex == desiredArrivalRate.length - 1) {
+                                    break;
+                                }
+                                setPointIndex += 1;
+                                basicOnOff.updateSetPoint(desiredArrivalRate[setPointIndex]);
+                            }
                         }
                     }
                 } finally {
