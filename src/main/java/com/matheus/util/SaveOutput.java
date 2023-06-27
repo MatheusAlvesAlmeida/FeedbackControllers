@@ -15,7 +15,7 @@ public class SaveOutput {
 
         FileWriter writer = new FileWriter(file, true);
         if (!fileExists) {
-            writer.write("QUEUE_SIZE,ARRIVAL_RATE,PC_COMPUTED\n");
+            writer.write("PREFETCH_COUNT,ARRIVAL_RATE,DESIRED_ARRIVAL_RATE\n");
         }
 
         writer.write(string);
@@ -23,10 +23,10 @@ public class SaveOutput {
         writer.close();
     }
 
-    public static void saveBasicOnOffResult(double queueSize, double arrivalRate, int newPC) {
+    public static void saveBasicOnOffResult(int prefetchCount, double arrivalRate, int desiredArrivalRate) {
         try {
-            String content = String.format("%.2f,%.2f,%d\n", queueSize, arrivalRate, newPC);
-            saveToFile("basic_onoff.csv", content);
+            String content = String.format("%d, %.2f, %d\n", prefetchCount, arrivalRate, desiredArrivalRate);
+            saveToFile("aStar.csv", content);
         } catch (IOException e) {
             e.printStackTrace();
         }
