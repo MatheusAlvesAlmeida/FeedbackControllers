@@ -3,6 +3,7 @@ package com.matheus.util;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Locale;
 
 public class SaveOutput {
     private static final String OUTPUTS_DIRECTORY = "./outputs/";
@@ -25,8 +26,8 @@ public class SaveOutput {
 
     public static void saveBasicOnOffResult(int prefetchCount, double arrivalRate, int desiredArrivalRate) {
         try {
-            String content = String.format("%d, %.2f, %d\n", prefetchCount, arrivalRate, desiredArrivalRate);
-            saveToFile("aStar.csv", content);
+            String content = String.format(Locale.US, "%d, %.2f, %d\n", prefetchCount, arrivalRate, desiredArrivalRate);
+            saveToFile("hysteresisOnOff.csv", content);
         } catch (IOException e) {
             e.printStackTrace();
         }
