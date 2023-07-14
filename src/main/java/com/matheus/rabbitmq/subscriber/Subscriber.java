@@ -1,4 +1,4 @@
-package com.matheus.subscriber;
+package com.matheus.rabbitmq.subscriber;
 
 import com.matheus.controllers.def.ops.IController;
 import com.matheus.shared.Shared;
