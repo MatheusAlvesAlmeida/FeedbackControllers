@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class Publisher {
     private final static String QUEUE_NAME = "NUMBERS";
     private final static int NUM_PUBLISHERS = 10;
-    private final static int DURATION = 5; // in minutes
+    private final static int DURATION = 25; // in minutes
 
     public static void main(String[] argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
