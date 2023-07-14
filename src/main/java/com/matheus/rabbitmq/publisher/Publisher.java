@@ -1,4 +1,4 @@
-package com.matheus.publisher;
+package com.matheus.rabbitmq.publisher;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
