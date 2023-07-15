@@ -14,7 +14,7 @@ public class BasicPID implements IController{
     @Override
     public void initialize(double... params) {
         if(params.length < 5) {
-            throw new IllegalArgumentException("BasicPID requires 8 parameters: setpoint, direction, min, max, PC, kp, ki, kd");
+            throw new IllegalArgumentException("BasicPID requires 8 parameters: setpoint, direction, min, max, PC, kp, ki and kd");
         }
         this.info.setSetPoint(params[0]);
         this.info.setDirection(params[1]);
