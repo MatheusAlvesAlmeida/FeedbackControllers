@@ -6,6 +6,9 @@ import com.matheus.controllers.onoff.basic.BasicOnOff;
 import com.matheus.controllers.onoff.deadzone.DeadZoneOnOff;
 import com.matheus.controllers.onoff.hysteresis.HysteresisOnOff;
 import com.matheus.controllers.pid.basic.BasicPID;
+import com.matheus.controllers.pid.deadzone.DeadzonePID;
+import com.matheus.controllers.pid.errorsquare.ErrorSquarePID;
+import com.matheus.controllers.pid.incremental.IncrementalPID;
 import com.matheus.shared.Shared;
 
 public interface IController {
@@ -44,6 +47,21 @@ public interface IController {
                 BasicPID pid = new BasicPID();
                 pid.initialize(params);
                 return pid;
+
+            case Shared.DEADZONE_PID:
+                DeadzonePID pidDeadZone = new DeadzonePID();
+                pidDeadZone.initialize(params);
+                return pidDeadZone;
+
+            case Shared.ERROR_SQUARE_PID:
+                ErrorSquarePID pidErrorSquare = new ErrorSquarePID();
+                pidErrorSquare.initialize(params);
+                return pidErrorSquare;
+            
+            case Shared.INCREMENTAL_PID:
+                IncrementalPID pidIncremental = new IncrementalPID();
+                pidIncremental.initialize(params);
+                return pidIncremental;
 
             default:
                 System.out.println("Error: Controller type ´" + typeName + "´ is unknown!");

@@ -8,7 +8,10 @@ public class Shared {
     public static final String HYSTERESIS_ONOFF = "OnOffwithHysteresis";
 
     public static final String BASIC_PID = "BasicPID";
-    
+    public static final String DEADZONE_PID = "PIDwithDeadZone";
+    public static final String ERROR_SQUARE_PID = "PIDwithErrorSquare";
+    public static final String INCREMENTAL_PID = "IncrementalPID";
+
 
     public static final String ASTAR = "AStar";
 
