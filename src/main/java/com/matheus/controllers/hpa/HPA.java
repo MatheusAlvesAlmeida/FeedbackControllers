@@ -15,11 +15,11 @@ public class HPA implements IController{
         if(params.length < 5) {
             throw new IllegalArgumentException("HPA requires 5 parameters: setpoint, direction, min, max, PC");
         }
-        info.setSetPoint(params[0]);
-        info.setDirection(params[1]);
-        info.setMin(params[2]);
-        info.setMax(params[3]);
-        info.setPC(params[4]);
+        this.info.setSetPoint(params[0]);
+        this.info.setDirection(params[1]);
+        this.info.setMin(params[2]);
+        this.info.setMax(params[3]);
+        this.info.setPC(params[4]);
     }
 
     @Override

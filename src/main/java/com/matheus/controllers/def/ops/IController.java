@@ -5,6 +5,7 @@ import com.matheus.controllers.hpa.HPA;
 import com.matheus.controllers.onoff.basic.BasicOnOff;
 import com.matheus.controllers.onoff.deadzone.DeadZoneOnOff;
 import com.matheus.controllers.onoff.hysteresis.HysteresisOnOff;
+import com.matheus.controllers.pid.basic.BasicPID;
 import com.matheus.shared.Shared;
 
 public interface IController {
@@ -38,6 +39,11 @@ public interface IController {
                 HPA hpa = new HPA();
                 hpa.initialize(params);
                 return hpa;
+
+            case Shared.BASIC_PID:
+                BasicPID pid = new BasicPID();
+                pid.initialize(params);
+                return pid;
 
             default:
                 System.out.println("Error: Controller type ´" + typeName + "´ is unknown!");
