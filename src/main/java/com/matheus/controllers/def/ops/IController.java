@@ -13,7 +13,9 @@ import com.matheus.shared.Shared;
 
 public interface IController {
     void initialize(double... params);
+
     double update(double... input);
+
     void updateSetPoint(double setPoint);
 
     static IController createController(String typeName, double... params) {
@@ -37,7 +39,7 @@ public interface IController {
                 aStar aStar = new aStar();
                 aStar.initialize(params);
                 return aStar;
-                
+
             case Shared.HPA:
                 HPA hpa = new HPA();
                 hpa.initialize(params);
@@ -57,7 +59,7 @@ public interface IController {
                 ErrorSquarePID pidErrorSquare = new ErrorSquarePID();
                 pidErrorSquare.initialize(params);
                 return pidErrorSquare;
-            
+
             case Shared.INCREMENTAL_PID:
                 IncrementalPID pidIncremental = new IncrementalPID();
                 pidIncremental.initialize(params);
@@ -70,5 +72,3 @@ public interface IController {
         }
     }
 }
-
-

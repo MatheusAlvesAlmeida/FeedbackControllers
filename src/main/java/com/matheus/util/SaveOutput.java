@@ -27,7 +27,7 @@ public class SaveOutput {
     public static void saveBasicOnOffResult(int prefetchCount, double arrivalRate, int desiredArrivalRate) {
         try {
             String content = String.format(Locale.US, "%d, %.2f, %d\n", prefetchCount, arrivalRate, desiredArrivalRate);
-            saveToFile("hysteresisOnOff.csv", content);
+            saveToFile("basicPID_cohen_training.csv", content);
         } catch (IOException e) {
             e.printStackTrace();
         }
