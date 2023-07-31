@@ -27,7 +27,7 @@ public class SaveOutput {
     public static void saveBasicOnOffResult(int prefetchCount, double arrivalRate, int desiredArrivalRate) {
         try {
             String content = String.format(Locale.US, "%d, %.2f, %d\n", prefetchCount, arrivalRate, desiredArrivalRate);
-            saveToFile("errorsquarePID_rootlocus.csv", content);
+            saveToFile("incrementalPID_cohen.csv", content);
         } catch (IOException e) {
             e.printStackTrace();
         }

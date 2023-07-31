@@ -47,12 +47,12 @@ public class Subscriber {
         // AMIGO: {'kp': 5.074845338046842e-05, 'ki': 0.00010678320398806896, 'kd': 6.343556672558552e-06}
         // Cohen: {'kp': 7.82976137870084e-05, 'ki': 7.412174105170129e-05, 'kd': 9.989695552135559e-06}
 
-        double kp = -8.157596087708224e-05, ki = 0.0008493198021217253, kd = 0.00019751623305156406;
+        double kp = 7.82976137870084e-05, ki = 7.412174105170129e-05, kd = 9.989695552135559e-06;
 
         //IController basicPID = IController.createController(Shared.BASIC_PID, desiredArrivalRate[0], 1, 1, 10, prefetchCount, kp, ki, kd);
         //IController deadzonePID = IController.createController(Shared.DEADZONE_PID, desiredArrivalRate[0], 1, 1, 10, prefetchCount, kp, ki, kd, 1000);
-        IController errorsquarePID = IController.createController(Shared.ERROR_SQUARE_PID, desiredArrivalRate[0], 1, 1, 10, prefetchCount, kp, ki, kd);
-        //IController incrementalPID = IController.createController(Shared.INCREMENTAL_PID, desiredArrivalRate[0], 1, 1, 10, prefetchCount, kp, ki, kd);
+        //IController errorsquarePID = IController.createController(Shared.ERROR_SQUARE_PID, desiredArrivalRate[0], 1, 1, 10, prefetchCount, kp, ki, kd);
+        IController incrementalPID = IController.createController(Shared.INCREMENTAL_PID, desiredArrivalRate[0], 1, 1, 10, prefetchCount, kp, ki, kd);
 
         try {
             Connection connection = createConnectionFactory().newConnection();
@@ -80,7 +80,7 @@ public class Subscriber {
                             // Update the prefetch count
                             sample += 1;
                             messageCount.set(0);
-                            prefetchCount = (int) errorsquarePID.update(arrivalRate);
+                            prefetchCount = (int) incrementalPID.update(arrivalRate);
                             channel.basicQos(prefetchCount, true);
                             // Change the set point every 60 samples
                             if (sample == 60) {
@@ -91,7 +91,7 @@ public class Subscriber {
                                 setPointIndex += 1;
                                 sample = 0;
                                 System.out.println("Changing set point to " + desiredArrivalRate[setPointIndex]);
-                                errorsquarePID.updateSetPoint(desiredArrivalRate[setPointIndex]);
+                                incrementalPID.updateSetPoint(desiredArrivalRate[setPointIndex]);
                             }
                             // Restart the consumer
                             consumerTag = channel.basicConsume(QUEUE_NAME, false, consumer);
