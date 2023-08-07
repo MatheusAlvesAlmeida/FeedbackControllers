@@ -18,5 +18,9 @@ The project includes the following feedback controllers:
 - On-Off Controller with Hysteresis
 - aStar Controller
 - HPA Controller
+- BasicPID Controller
+- PID Controller with Deadzone
+- PID Controller with errorsquare
+- Incremental PID Controller
 
 You can learn more about in this book by Philipp K Janert: [Feedback Control for Computer Systems: Introducing Control Theory to Enterprise Programmers](amazon.com.br/Feedback-Control-Computer-Systems-Phillipp/dp/1449361692).
